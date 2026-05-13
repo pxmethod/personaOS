@@ -1,0 +1,124 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Main canvas — near-black */
+  --color-canvas: #0b0b0b;
+  --color-ink: #f4f4f5;
+  --color-ink-muted: #a1a1aa;
+  --color-ink-subtle: #71717a;
+
+  /* Elevated surfaces on canvas */
+  --color-surface-0: #141414;
+  --color-surface-1: #1a1a1a;
+  --color-surface-2: #222222;
+  --color-edge: rgba(255, 255, 255, 0.1);
+  --color-edge-strong: rgba(255, 255, 255, 0.16);
+
+  /* Brand lime — buttons & tag borders */
+  --color-lime: #ccff00;
+  --color-lime-hover: #b8ea00;
+  --color-lime-muted: rgba(204, 255, 0, 0.22);
+
+  /* Secondary actions / links */
+  --color-primary: #7c9cff;
+  --color-primary-hover: #9bb4ff;
+  --color-primary-soft: rgba(124, 156, 255, 0.12);
+
+  --color-teal: #5eead4;
+  --color-teal-bright: #2dd4bf;
+  --color-teal-deep: #14b8a6;
+
+  --color-kong-navy: #000933;
+  --color-kong-navy-mid: #0a1628;
+  --color-warning-fg: #fbbf24;
+  --color-warning-soft: rgba(251, 191, 36, 0.12);
+  --color-danger: #f87171;
+  --color-decorative-purple: #c084fc;
+
+  --color-accent: #ccff00;
+  --color-accent-soft: rgba(204, 255, 0, 0.12);
+
+  --radius-card: 12px;
+  --shadow-float: 0 20px 50px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-nav-card: 0 12px 40px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background-color: var(--color-canvas);
+  }
+
+  #root {
+    min-height: 100dvh;
+  }
+
+  /** Pointer on interactive controls (Tailwind preflight resets native button cursor). */
+  button:not(:disabled),
+  [type='button']:not(:disabled),
+  [type='submit']:not(:disabled),
+  [type='reset']:not(:disabled),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [type='button']:disabled,
+  [type='submit']:disabled,
+  [type='reset']:disabled,
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+
+  a[href] {
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+
+  /** Tag / chip — lime border, same corner radius as Button (rounded-xl). */
+  .tag-lime {
+    border-width: 1px;
+    border-color: var(--color-lime);
+    background-color: rgba(204, 255, 0, 0.08);
+    border-radius: 0.75rem;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}

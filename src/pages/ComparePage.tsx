@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Link2, X } from 'lucide-react'
-import { TaskSankey } from '@/components/charts/TaskSankey'
 import { PersonaAvatar } from '@/components/PersonaAvatar'
 import { WorkflowDayOverview } from '@/components/WorkflowDayOverview'
 import { ToolLogo } from '@/components/ToolLogo'
@@ -193,7 +192,6 @@ export function ComparePage() {
                 <div className="space-y-4">
                   <p className="text-md leading-relaxed text-white">{p.workflow.summary}</p>
                   <WorkflowDayOverview workflow={p.workflow} variant="compact" />
-                  <TaskSankey rootLabel={`${p.name}`} workflow={p.workflow} height={260} />
                 </div>
               </CompareSection>
               <CompareSection title="Tools">

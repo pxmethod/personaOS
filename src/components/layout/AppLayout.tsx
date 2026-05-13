@@ -193,10 +193,15 @@ export function AppLayout() {
               </div>
 
               <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto overflow-x-hidden p-3 pb-4">
-                {nav.map(({ to, label, icon: Icon }) => (
+                {nav.map(({ to, label, icon: Icon }) => {
+                  const navTo =
+                    to === '/compare' && compareIds.length >= 2
+                      ? `/compare?ids=${compareIds.map((id) => encodeURIComponent(id)).join(',')}`
+                      : to
+                  return (
                   <NavLink
                     key={to}
-                    to={to}
+                    to={navTo}
                     end={to === '/'}
                     onClick={() => setMobileNav(false)}
                     className={({ isActive }) =>
@@ -216,7 +221,8 @@ export function AppLayout() {
                       </span>
                     )}
                   </NavLink>
-                ))}
+                  )
+                })}
               </nav>
             </div>
           </aside>

@@ -1,10 +1,10 @@
 export type UsageWeight = 'heavy' | 'moderate' | 'light'
 
-/** Display strings for product usage (sentence case). */
+/** Display strings for product usage (title case). */
 export const PRODUCT_USAGE_LABELS: Record<UsageWeight, string> = {
-  heavy: 'heavy',
-  moderate: 'moderate',
-  light: 'light',
+  heavy: 'Heavy',
+  moderate: 'Moderate',
+  light: 'Light',
 }
 
 export type Department =

@@ -18,6 +18,14 @@ import { compareShareAbsoluteUrl } from '@/lib/urls'
 import { cn } from '@/lib/utils'
 import type { Persona } from '@/types/persona'
 
+function parseCompareIdsParam(idsKey: string): string[] {
+  return idsKey
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, MAX_COMPARE_SELECTIONS)
+}
+
 function CompareSection({
   title,
   children,
@@ -38,29 +46,35 @@ function CompareSection({
 export function ComparePage() {
   const navigate = useNavigate()
   const [params] = useSearchParams()
-  const { setCompareIds, clearCompare, setCompareMode } = useExplorer()
+  const { setCompareIds, clearCompare, setCompareMode, compareIds } = useExplorer()
   const [copied, setCopied] = useState(false)
   const copiedResetRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const idsKey = params.get('ids') ?? ''
-  const ids = useMemo(() => {
-    return idsKey
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .slice(0, MAX_COMPARE_SELECTIONS)
-  }, [idsKey])
+  const idsFromUrl = useMemo(() => parseCompareIdsParam(idsKey), [idsKey])
+
+  const comparisonIds = useMemo(() => {
+    if (idsFromUrl.length >= 2) return idsFromUrl
+    if (compareIds.length >= 2) return compareIds.slice(0, MAX_COMPARE_SELECTIONS)
+    return idsFromUrl
+  }, [idsFromUrl, compareIds])
 
   useEffect(() => {
-    const parsed = idsKey
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .slice(0, MAX_COMPARE_SELECTIONS)
-    if (parsed.length >= 2) {
-      setCompareIds(parsed)
+    if (idsFromUrl.length >= 2) {
+      setCompareIds(idsFromUrl)
     }
-  }, [idsKey, setCompareIds])
+  }, [idsFromUrl, setCompareIds])
+
+  useEffect(() => {
+    if (idsFromUrl.length >= 2) return
+    if (compareIds.length >= 2) {
+      const qs = compareIds
+        .slice(0, MAX_COMPARE_SELECTIONS)
+        .map((id) => encodeURIComponent(id))
+        .join(',')
+      navigate(`/compare?ids=${qs}`, { replace: true })
+    }
+  }, [idsKey, compareIds, navigate])
 
   useEffect(
     () => () => {
@@ -70,8 +84,8 @@ export function ComparePage() {
   )
 
   const selected = useMemo(
-    () => ids.map((id) => personaById[id]).filter(Boolean) as Persona[],
-    [ids],
+    () => comparisonIds.map((id) => personaById[id]).filter(Boolean) as Persona[],
+    [comparisonIds],
   )
 
   function handleClear() {
@@ -81,7 +95,7 @@ export function ComparePage() {
   }
 
   async function copyShare() {
-    const url = compareShareAbsoluteUrl(ids)
+    const url = compareShareAbsoluteUrl(comparisonIds)
     try {
       await navigator.clipboard.writeText(url)
       setCopied(true)

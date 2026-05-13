@@ -7,7 +7,7 @@ import { useExplorer } from '@/hooks/useExplorer'
 import { personas } from '@/data/personas'
 import { MAX_COMPARE_SELECTIONS } from '@/lib/compareLimits'
 import { MAIN_CONTENT_OUTER } from '@/lib/mainContentLayout'
-import { departments } from '@/lib/personaFilters'
+import { departments, sortPersonasByUsageDesc } from '@/lib/personaFilters'
 import { cn } from '@/lib/utils'
 import { PRODUCT_USAGE_LABELS, type Department, type UsageWeight, type WorkflowType } from '@/types/persona'
 
@@ -54,6 +54,11 @@ export function DirectoryPage() {
       { value: 'commercial', label: 'Commercial' },
     ]
   }, [])
+
+  const directoryPersonas = useMemo(
+    () => sortPersonasByUsageDesc(filteredPersonas),
+    [filteredPersonas],
+  )
 
   const exitCompare = () => {
     if (compareMode) {
@@ -144,7 +149,7 @@ export function DirectoryPage() {
         </div>
       )}
 
-      {filteredPersonas.length === 0 ? (
+      {directoryPersonas.length === 0 ? (
         <div className="rounded-[var(--radius-card)] border border-dashed border-lime/50 bg-surface-0/80 px-6 py-16 text-center">
           <p className="font-display text-lg font-semibold text-ink">No personas match</p>
           <p className="mt-2 text-sm text-ink-muted">
@@ -165,7 +170,7 @@ export function DirectoryPage() {
             </div>
           )}
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredPersonas.map((p, i) => (
+            {directoryPersonas.map((p, i) => (
               <div
                 key={p.id}
                 className="h-full animate-fade-up"

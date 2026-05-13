@@ -1,4 +1,20 @@
-import type { Persona } from '@/types/persona'
+import type { Persona, UsageWeight } from '@/types/persona'
+
+/** Lower rank = heavier usage (directory default order). */
+const USAGE_SORT_RANK: Record<UsageWeight, number> = {
+  heavy: 0,
+  moderate: 1,
+  light: 2,
+}
+
+/** Highest product usage first; ties broken by persona name. */
+export function sortPersonasByUsageDesc(personas: Persona[]): Persona[] {
+  return [...personas].sort((a, b) => {
+    const byUsage = USAGE_SORT_RANK[a.usageWeight] - USAGE_SORT_RANK[b.usageWeight]
+    if (byUsage !== 0) return byUsage
+    return a.name.localeCompare(b.name)
+  })
+}
 
 export function personaMatchesKeyword(persona: Persona, q: string): boolean {
   if (!q.trim()) return true

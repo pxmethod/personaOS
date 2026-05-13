@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Link2, X } from 'lucide-react'
 import { TaskSankey } from '@/components/charts/TaskSankey'
+import { PersonaAvatar } from '@/components/PersonaAvatar'
 import { WorkflowDayOverview } from '@/components/WorkflowDayOverview'
 import { ToolLogo } from '@/components/ToolLogo'
 import { Button } from '@/components/ui/Button'
@@ -26,7 +27,7 @@ function CompareSection({
 }) {
   return (
     <section className="space-y-3">
-      <h2 className="font-display text-sm font-semibold tracking-wide text-ink-muted">
+      <h2 className="font-display text-xl font-semibold tracking-wide text-lime">
         {title}
       </h2>
       {children}
@@ -138,16 +139,17 @@ export function ComparePage() {
       >
         {selected.map((p) => (
           <Card key={p.id} className="overflow-hidden">
-            <CardHeader className="pb-4 pt-6 border-b border-edge bg-surface-1">
-              <div className="flex flex-wrap gap-2">
+            <CardHeader className="gap-3 border-b border-edge bg-surface-1 pb-4 pt-6">
+              <PersonaAvatar personaId={p.id} name={p.name} />
+              <CardTitle className="text-2xl">{p.name}</CardTitle>
+              <p className="text-sm text-ink-muted">{p.role}</p>
+              <div className="flex flex-wrap gap-2 pt-1">
                 <DepartmentPill department={p.department} />
                 <UsageBadge weight={p.usageWeight} />
                 <span className={cn(personaCardPillBase, 'border-lime text-lime capitalize')}>
                   {p.workflowType}
                 </span>
               </div>
-              <CardTitle className="mt-3 text-xl">{p.name}</CardTitle>
-              <p className="text-sm text-ink-muted">{p.role}</p>
             </CardHeader>
             <CardContent className="space-y-6 pt-5">
               <CompareSection title="Snapshot">

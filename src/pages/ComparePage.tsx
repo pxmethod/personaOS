@@ -26,7 +26,7 @@ function CompareSection({
 }) {
   return (
     <section className="space-y-3">
-      <h2 className="font-display text-xs font-semibold tracking-wide text-ink-muted">
+      <h2 className="font-display text-sm font-semibold tracking-wide text-ink-muted">
         {title}
       </h2>
       {children}
@@ -138,7 +138,7 @@ export function ComparePage() {
       >
         {selected.map((p) => (
           <Card key={p.id} className="overflow-hidden">
-            <CardHeader className="border-b border-edge bg-surface-1">
+            <CardHeader className="pb-4 pt-6 border-b border-edge bg-surface-1">
               <div className="flex flex-wrap gap-2">
                 <DepartmentPill department={p.department} />
                 <UsageBadge weight={p.usageWeight} />
@@ -151,10 +151,10 @@ export function ComparePage() {
             </CardHeader>
             <CardContent className="space-y-6 pt-5">
               <CompareSection title="Snapshot">
-                <p className="text-sm leading-relaxed text-ink">{p.description}</p>
+                <p className="text-md leading-relaxed text-ink">{p.description}</p>
               </CompareSection>
               <CompareSection title="Goals">
-                <ul className="space-y-2 text-sm text-ink">
+                <ul className="space-y-2 text-md text-white">
                   {p.goals.map((g) => (
                     <li key={g} className="flex gap-2">
                       <span className="mt-2 size-1 shrink-0 rounded-full bg-lime" />
@@ -164,7 +164,7 @@ export function ComparePage() {
                 </ul>
               </CompareSection>
               <CompareSection title="Challenges">
-                <ul className="space-y-2 text-sm text-ink">
+                <ul className="space-y-2 text-md text-white">
                   {p.challenges.map((c) => (
                     <li key={c} className="flex gap-2">
                       <span className="mt-2 size-1 shrink-0 rounded-full bg-lime/50" />
@@ -175,7 +175,7 @@ export function ComparePage() {
               </CompareSection>
               <CompareSection title="Daily tasks">
                 <div className="space-y-4">
-                  <p className="text-xs leading-relaxed text-ink-muted">{p.workflow.summary}</p>
+                  <p className="text-md leading-relaxed text-white">{p.workflow.summary}</p>
                   <WorkflowDayOverview workflow={p.workflow} variant="compact" />
                   <TaskSankey rootLabel={`${p.name}`} workflow={p.workflow} height={260} />
                 </div>
@@ -185,13 +185,13 @@ export function ComparePage() {
                   {p.tools.map((t) => (
                     <div key={t.id} className="flex items-center gap-2">
                       <ToolLogo name={t.name} iconSlug={t.iconSlug} className="size-8" />
-                      <span className="text-sm font-medium">{t.name}</span>
+                      <span className="text-md font-medium">{t.name}</span>
                     </div>
                   ))}
                 </div>
               </CompareSection>
               <CompareSection title="Pain points">
-                <ul className="space-y-2 text-sm text-ink">
+                <ul className="space-y-2 text-md text-white">
                   {p.painPoints.map((x) => (
                     <li key={x} className="flex gap-2">
                       <span className="mt-2 size-1 shrink-0 rounded-full bg-danger" />

@@ -60,20 +60,20 @@ export function WorkflowDayOverview({
               compact ? 'p-3' : 'p-4',
             )}
           >
-            <div className="flex items-start justify-between gap-2 border-b border-edge pb-2">
-              <h3 className={cn('font-semibold text-ink', compact ? 'text-xs' : 'text-sm')}>
+            <div className="flex items-start justify-between gap-2 border-b border-edge pb-2 pt-3">
+              <h3 className={cn('font-semibold text-white', compact ? 'text-sm' : 'text-md')}>
                 {bucket.label}
               </h3>
               <span
                 className={cn(
                   'shrink-0 tabular-nums font-semibold text-lime',
-                  compact ? 'text-xs' : 'text-sm',
+                  compact ? 'text-sm' : 'text-md',
                 )}
               >
                 {bucket.weight}%
               </span>
             </div>
-            <p className={cn('text-ink-muted', compact ? 'mt-1 text-[10px]' : 'mt-1.5 text-xs')}>
+            <p className={cn('text-ink-muted', compact ? 'mt-1 text-sm' : 'mt-1.5 text-md')}>
               {compact ? (
                 <>Tasks sum to {bucket.weight} in this bucket.</>
               ) : (
@@ -88,16 +88,16 @@ export function WorkflowDayOverview({
                     <div className="flex items-baseline justify-between gap-2">
                       <span
                         className={cn(
-                          'min-w-0 leading-snug text-ink',
-                          compact ? 'text-[11px]' : 'text-sm',
+                          'min-w-0 leading-snug text-white',
+                          compact ? 'text-[12px]' : 'text-sm',
                         )}
                       >
                         {t.label}
                       </span>
                       <span
                         className={cn(
-                          'shrink-0 tabular-nums text-ink-muted',
-                          compact ? 'text-[10px]' : 'text-xs',
+                          'shrink-0 tabular-nums text-white',
+                          compact ? 'text-[14px]' : 'text-sm',
                         )}
                       >
                         {t.weight}

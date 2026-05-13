@@ -1,4 +1,4 @@
-# Persona Intelligence Explorer
+# PersonaOS
 
 Static, fast internal demo for browsing support-adjacent personas, comparing roles, and scanning workflow and pain-point overlap. Built with **React**, **TypeScript**, **Vite**, **Tailwind CSS v4**, **Lucide**, and **d3-sankey** for Sankey diagrams.
 

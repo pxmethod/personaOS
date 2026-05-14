@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, type Location } from 'react-router-dom'
 import { ArrowLeft, Link2 } from 'lucide-react'
 import type { ReactNode } from 'react'
@@ -11,9 +12,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { DepartmentPill } from '@/components/ui/DepartmentPill'
 import { UsageIntensityBar } from '@/components/ui/UsageIntensityBar'
 import { personaById } from '@/data/personas'
+import { copyTextToClipboard } from '@/lib/copyToClipboard'
 import { personaCardPillBase } from '@/lib/personaCardPills'
 import { taskLabelFromWorkflow } from '@/lib/workflowTaskLabels'
-import { absoluteAppPath } from '@/lib/urls'
 import { cn } from '@/lib/utils'
 import type { Persona } from '@/types/persona'
 
@@ -72,9 +73,23 @@ export function PersonaDetail({
     .map((id) => personaById[id])
     .filter(Boolean) as Persona[]
 
+  const [copied, setCopied] = useState(false)
+  const copiedResetRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(
+    () => () => {
+      if (copiedResetRef.current) clearTimeout(copiedResetRef.current)
+    },
+    [],
+  )
+
   async function copyLink() {
-    const url = absoluteAppPath(`persona/${persona.id}`)
-    await navigator.clipboard.writeText(url)
+    const url = `${window.location.origin}${window.location.pathname}${window.location.search}`
+    const ok = await copyTextToClipboard(url)
+    if (!ok) return
+    setCopied(true)
+    if (copiedResetRef.current) clearTimeout(copiedResetRef.current)
+    copiedResetRef.current = setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -126,7 +141,7 @@ export function PersonaDetail({
           <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
             <Button variant="outline" className="gap-2" onClick={() => void copyLink()}>
               <Link2 className="size-4" aria-hidden />
-              Copy link
+              {copied ? 'Copied link' : 'Copy link'}
             </Button>
           </div>
         </div>

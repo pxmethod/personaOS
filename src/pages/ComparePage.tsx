@@ -13,6 +13,7 @@ import { useExplorer } from '@/hooks/useExplorer'
 import { MAX_COMPARE_SELECTIONS } from '@/lib/compareLimits'
 import { MAIN_CONTENT_OUTER } from '@/lib/mainContentLayout'
 import { personaCardPillBase } from '@/lib/personaCardPills'
+import { copyTextToClipboard } from '@/lib/copyToClipboard'
 import { compareShareAbsoluteUrl } from '@/lib/urls'
 import { cn } from '@/lib/utils'
 import type { Persona } from '@/types/persona'
@@ -95,14 +96,11 @@ export function ComparePage() {
 
   async function copyShare() {
     const url = compareShareAbsoluteUrl(comparisonIds)
-    try {
-      await navigator.clipboard.writeText(url)
-      setCopied(true)
-      if (copiedResetRef.current) clearTimeout(copiedResetRef.current)
-      copiedResetRef.current = setTimeout(() => setCopied(false), 2000)
-    } catch {
-      window.prompt('Copy this link:', url)
-    }
+    const ok = await copyTextToClipboard(url)
+    if (!ok) return
+    setCopied(true)
+    if (copiedResetRef.current) clearTimeout(copiedResetRef.current)
+    copiedResetRef.current = setTimeout(() => setCopied(false), 2000)
   }
 
   if (selected.length < 2) {

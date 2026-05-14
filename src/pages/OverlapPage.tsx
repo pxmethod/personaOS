@@ -1,13 +1,13 @@
 import { Link2 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { OverlapChordDiagram } from '@/components/charts/OverlapChordDiagram'
 import { OverlapNetworkGraph } from '@/components/charts/OverlapNetworkGraph'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { personas } from '@/data/personas'
+import { copyTextToClipboard } from '@/lib/copyToClipboard'
 import { computeThemeOverlaps } from '@/lib/overlap'
 import { MAIN_CONTENT_OUTER } from '@/lib/mainContentLayout'
-import { absoluteAppPath } from '@/lib/urls'
 import { cn } from '@/lib/utils'
 
 type SharedPainView = 'network' | 'chord'
@@ -15,10 +15,23 @@ type SharedPainView = 'network' | 'chord'
 export function OverlapPage() {
   const overlaps = computeThemeOverlaps(personas)
   const [sharedPainView, setSharedPainView] = useState<SharedPainView>('network')
+  const [copied, setCopied] = useState(false)
+  const copiedResetRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(
+    () => () => {
+      if (copiedResetRef.current) clearTimeout(copiedResetRef.current)
+    },
+    [],
+  )
 
   async function copyLink() {
-    const url = absoluteAppPath('overlap')
-    await navigator.clipboard.writeText(url)
+    const url = `${window.location.origin}${window.location.pathname}${window.location.search}`
+    const ok = await copyTextToClipboard(url)
+    if (!ok) return
+    setCopied(true)
+    if (copiedResetRef.current) clearTimeout(copiedResetRef.current)
+    copiedResetRef.current = setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -32,7 +45,7 @@ export function OverlapPage() {
         </div>
         <Button variant="outline" className="gap-2" onClick={() => void copyLink()}>
           <Link2 className="size-4" aria-hidden />
-          Copy link
+          {copied ? 'Copied link' : 'Copy link'}
         </Button>
       </div>
 

@@ -200,8 +200,8 @@ export function PersonaConfidenceCard({ persona }: { persona: Persona }) {
         'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]',
       )}
     >
-      <h3 className="font-display text-md font-semibold tracking-tight text-white">Confidence level</h3>
-      <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-ink-muted">
+      <h3 className="font-display text-md font-semibold tracking-tight text-white">Data accuracy</h3>
+      <p className="mt-1.5 max-w-auto text-sm leading-relaxed text-ink-muted">
         Industry-informed estimate based on public research and generalized customer support workflows and operational patterns.
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-2">

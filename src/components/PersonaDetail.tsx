@@ -147,7 +147,7 @@ export function PersonaDetail({
         </div>
       </div>
 
-      <p className="max-w-3xl text-lg leading-relaxed text-ink">{persona.description}</p>
+      <p className="max-w-auto text-lg leading-relaxed text-white">{persona.description}</p>
 
       <UsageIntensityBar weight={persona.usageWeight} size="lg" className="max-w-full sm:max-w-2xl" />
 

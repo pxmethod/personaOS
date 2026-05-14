@@ -36,7 +36,7 @@ const UNDERLAY_HOME: Location = {
 
 const nav = [
   { to: '/', label: 'Home', icon: Home },
-  { to: '/directory', label: 'Directory', icon: Layers },
+  { to: '/directory', label: 'Personas directory', icon: Layers },
   { to: '/overlap', label: 'Persona overlap', icon: Fingerprint },
   { to: '/compare', label: 'Compare', icon: GitCompareArrows },
 ]
@@ -164,9 +164,9 @@ export function AppLayout() {
               <div className="flex shrink-0 items-center justify-between gap-2 border-b border-edge px-4 py-4">
                 <div className="flex min-w-0 flex-1 items-center gap-2.5">
                   <img
-                    src={`${import.meta.env.BASE_URL}dodecahedron.gif`}
-                    alt=""
-                    className="h-9 w-auto shrink-0 object-contain object-left sm:h-10"
+                    src={`${import.meta.env.BASE_URL}brain_logo.gif`}
+                    alt="PersonaOS logo"
+                    className="h-9 w-auto shrink-0 object-contain object-left sm:h-12 md:h-16"
                     decoding="async"
                   />
                   <div className="min-w-0">

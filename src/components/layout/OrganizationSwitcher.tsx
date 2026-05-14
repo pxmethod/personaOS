@@ -28,7 +28,7 @@ export function OrganizationSwitcher({
 }) {
   return (
     <ListboxSelect
-      label="Organization"
+      label="Choose organization"
       value={value}
       options={ORG_OPTIONS}
       onChange={onChange}

@@ -109,7 +109,7 @@ export function ComparePage() {
     return (
       <div className={cn(MAIN_CONTENT_OUTER, 'flex flex-col items-center space-y-4 py-48 text-center')}>
         <div className="mx-auto max-w-lg space-y-4 text-center">
-          <h1 className="font-display text-2xl font-semibold text-ink">Compare personas to understand tradeoffs before you build</h1>
+          <h1 className="font-display text-2xl font-semibold text-ink">Compare personas to understand tradeoffs before you design and build.</h1>
           <p className="text-sm text-ink-muted">
             See how goals, workflows, and pressures differ across roles to design decisions that work for the whole
             team.
@@ -118,7 +118,7 @@ export function ComparePage() {
             Go to the directory to select two personas and open a comparison.
           </p>
           <Button className="mt-4" onClick={() => navigate('/directory')}>
-            Back to directory
+            Go to directory
           </Button>
         </div>
       </div>

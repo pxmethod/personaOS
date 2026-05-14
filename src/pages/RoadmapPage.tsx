@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { MAIN_CONTENT_OUTER } from '@/lib/mainContentLayout'
 import { cn } from '@/lib/utils'
 
-const SHARE_IDEA_MAILTO = 'mailto:john@kustomer.com'
+const SHARE_IDEA_MAILTO = 'mailto:john.menard@kustomer.com'
 
 export function RoadmapPage() {
   return (

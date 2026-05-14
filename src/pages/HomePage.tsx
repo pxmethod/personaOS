@@ -10,15 +10,22 @@ export function HomePage() {
 
   return (
     <div className={cn(MAIN_CONTENT_OUTER, 'space-y-4 pt-6 pb-8 sm:pb-12')}>
-      <div className="flex flex-row items-center gap-3 sm:gap-4">
-        <img
-          src={`${import.meta.env.BASE_URL}dodecahedron.gif`}
-          alt=""
-          className="h-12 w-auto shrink-0 object-contain object-left sm:h-24 md:h-32"
-        />
-        <h1 className="min-w-0 flex-1 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-[2.75rem] md:leading-[1.15]">
-          Start at the problem.
-        </h1>
+      <div className="flex justify-center">
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-center sm:gap-4 md:gap-6">
+          <img
+            src={`${import.meta.env.BASE_URL}geo_shape_home.gif`}
+            alt=""
+            className="h-12 w-auto shrink-0 object-contain object-center sm:h-48 md:h-64"
+          />
+          <div className="w-full max-w-lg space-y-4 text-left sm:max-w-xl md:max-w-2xl sm:space-y-2">
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-[2.75rem] md:leading-[1.15]">
+              Start at the problem.
+            </h1>
+            <p className="mx-auto max-w-prose text-base leading-relaxed text-white sm:text-lg">
+              Great products are built by solving meaningful user problems — not by shipping features in isolation.
+            </p>
+          </div>
+        </div>
       </div>
       <Card className="overflow-hidden">
         <CardHeader>
@@ -32,9 +39,6 @@ export function HomePage() {
           </p>
           <p>
             Use this workspace to better understand who uses your product, how they work, and where the biggest opportunities exist to improve efficiency, collaboration, and customer outcomes.
-          </p>
-          <p>
-            Great products are built by solving meaningful user problems — not by shipping features in isolation.
           </p>
         </CardContent>
 

@@ -7,7 +7,7 @@ import { ToolLogo } from '@/components/ToolLogo'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { DepartmentPill } from '@/components/ui/DepartmentPill'
-import { UsageBadge } from '@/components/ui/UsageBadge'
+import { UsageIntensityBar } from '@/components/ui/UsageIntensityBar'
 import { personaById } from '@/data/personas'
 import { useExplorer } from '@/hooks/useExplorer'
 import { MAX_COMPARE_SELECTIONS } from '@/lib/compareLimits'
@@ -156,11 +156,11 @@ export function ComparePage() {
               <p className="text-sm text-ink-muted">{p.role}</p>
               <div className="flex flex-wrap gap-2 pt-1">
                 <DepartmentPill department={p.department} />
-                <UsageBadge weight={p.usageWeight} />
                 <span className={cn(personaCardPillBase, 'border-lime text-lime capitalize')}>
                   {p.workflowType}
                 </span>
               </div>
+              <UsageIntensityBar weight={p.usageWeight} className="max-w-none pt-3" />
             </CardHeader>
             <CardContent className="space-y-6 pt-5">
               <CompareSection title="Snapshot">
@@ -186,6 +186,16 @@ export function ComparePage() {
                   ))}
                 </ul>
               </CompareSection>
+              <CompareSection title="Pain points">
+                <ul className="space-y-2 text-md text-white">
+                  {p.painPoints.map((x) => (
+                    <li key={x} className="flex gap-2">
+                      <span className="mt-2 size-1 shrink-0 rounded-full bg-danger" />
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </CompareSection>
               <CompareSection title="Daily tasks">
                 <div className="space-y-4">
                   <p className="text-md leading-relaxed text-white">{p.workflow.summary}</p>
@@ -201,16 +211,6 @@ export function ComparePage() {
                     </div>
                   ))}
                 </div>
-              </CompareSection>
-              <CompareSection title="Pain points">
-                <ul className="space-y-2 text-md text-white">
-                  {p.painPoints.map((x) => (
-                    <li key={x} className="flex gap-2">
-                      <span className="mt-2 size-1 shrink-0 rounded-full bg-danger" />
-                      {x}
-                    </li>
-                  ))}
-                </ul>
               </CompareSection>
             </CardContent>
           </Card>

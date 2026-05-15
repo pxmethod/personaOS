@@ -89,7 +89,7 @@ export function WorkflowDayOverview({
                       <span
                         className={cn(
                           'min-w-0 leading-snug text-white',
-                          compact ? 'text-[12px]' : 'text-sm',
+                          compact ? 'text-[14px]' : 'text-md',
                         )}
                       >
                         {t.label}
@@ -97,7 +97,7 @@ export function WorkflowDayOverview({
                       <span
                         className={cn(
                           'shrink-0 tabular-nums text-white',
-                          compact ? 'text-[14px]' : 'text-sm',
+                          compact ? 'text-[14px]' : 'text-md',
                         )}
                       >
                         {t.weight}

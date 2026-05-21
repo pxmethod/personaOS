@@ -3,6 +3,7 @@ import { Link, useLocation, type Location } from 'react-router-dom'
 import { ArrowLeft, Link2 } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { PersonaAvatar } from '@/components/PersonaAvatar'
+import { PersonaQuoteBlock } from '@/components/PersonaQuoteBlock'
 import { PersonaConfidenceCard } from '@/components/PersonaConfidenceCard'
 import { TaskSankey } from '@/components/charts/TaskSankey'
 import { WorkflowDayOverview } from '@/components/WorkflowDayOverview'
@@ -148,6 +149,8 @@ export function PersonaDetail({
       </div>
 
       <p className="max-w-auto text-lg leading-relaxed text-white">{persona.description}</p>
+
+      <PersonaQuoteBlock quote={persona.quote} />
 
       <UsageIntensityBar weight={persona.usageWeight} size="lg" className="max-w-full sm:max-w-2xl" />
 

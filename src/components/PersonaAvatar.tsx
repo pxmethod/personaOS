@@ -11,8 +11,8 @@ export function PersonaAvatar({
   personaId: string
   name: string
   className?: string
-  /** `lg` = 80px on cards; `xl` = 120px on detail header */
-  size?: 'lg' | 'xl'
+  /** `sm` = compact row; `lg` = 80px on cards; `xl` = 120px on detail header */
+  size?: 'sm' | 'lg' | 'xl'
 }) {
   const [failed, setFailed] = useState(false)
   const src = personaHumanAvatarUrl(personaId)
@@ -25,7 +25,8 @@ export function PersonaAvatar({
     .toUpperCase()
     .slice(0, 2)
 
-  const dim = size === 'xl' ? 'size-[120px] text-2xl' : 'size-20 text-base'
+  const dim =
+    size === 'xl' ? 'size-[120px] text-2xl' : size === 'sm' ? 'size-8 text-[10px]' : 'size-20 text-base'
 
   if (failed) {
     return (
@@ -47,8 +48,8 @@ export function PersonaAvatar({
     <img
       src={src}
       alt={`Avatar for ${name}`}
-      width={size === 'xl' ? 120 : 80}
-      height={size === 'xl' ? 120 : 80}
+      width={size === 'xl' ? 120 : size === 'sm' ? 32 : 80}
+      height={size === 'xl' ? 120 : size === 'sm' ? 32 : 80}
       loading="lazy"
       decoding="async"
       referrerPolicy="no-referrer"

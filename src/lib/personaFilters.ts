@@ -22,6 +22,7 @@ export function personaMatchesKeyword(persona: Persona, q: string): boolean {
   const hay = [
     persona.name,
     persona.role,
+    persona.quote,
     persona.department,
     persona.workflowType,
     persona.description,

@@ -1,5 +1,6 @@
 import type { Persona } from '@/types/persona'
 import { commonlyUsedFeaturesForPersona } from '@/data/personaFeatureSets'
+import { personaComparisonProfiles } from '@/data/personaComparisonProfiles'
 import { personaWorkflowById } from '@/data/personaWorkflows'
 
 /** Eleven support-adjacent personas — goals, challenges, daily rhythm, tools, and pains from product research. */
@@ -12,10 +13,11 @@ export const personas: Persona[] = [
     supportModel: 'b2c',
     usageWeight: 'heavy',
     workflowType: 'reactive',
+    quote:
+      "How do I solve this customer's problem as quickly and smoothly as possible?",
     description:
       'A high-volume frontline support role focused on resolving customer issues quickly across chat, email, voice, and self-service channels. B2C support agents typically optimize for speed, efficiency, customer satisfaction, and queue throughput while handling large volumes of transactional customer interactions.',
     goals: [
-      'Resolve customer issues quickly',
       'Maintain high CSAT scores',
       'Reduce handle time',
       'Meet SLA and response targets',
@@ -71,6 +73,7 @@ export const personas: Persona[] = [
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('support-agent-b2c'),
     confidence: { model: 'moderate', tier: 'industry_baseline' },
+    comparisonProfile: personaComparisonProfiles['support-agent-b2c'],
   },
   {
     id: 'support-agent-b2b',
@@ -80,10 +83,11 @@ export const personas: Persona[] = [
     supportModel: 'b2b',
     usageWeight: 'heavy',
     workflowType: 'reactive',
+    quote:
+      'How do I resolve this issue while protecting the customer relationship and keeping the account healthy?',
     description:
       'Frontline support for business and organization accounts where issues are fewer in volume but higher in complexity. B2B support agents balance contractual SLAs, multi-stakeholder communication, entitlement and billing nuance, and tight coordination with customer success, sales, and engineering while protecting expansion and renewal outcomes.',
     goals: [
-      'Honor contractual SLAs and severity commitments',
       'Resolve technical and operational issues with clear ownership',
       'Protect revenue, adoption, and renewal momentum on supported accounts',
       'Coordinate cleanly with CSMs, AEs, and specialists',
@@ -135,6 +139,7 @@ export const personas: Persona[] = [
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('support-agent-b2b'),
     confidence: { model: 'moderate', tier: 'industry_baseline' },
+    comparisonProfile: personaComparisonProfiles['support-agent-b2b'],
   },
   {
     id: 'support-manager',
@@ -144,10 +149,10 @@ export const personas: Persona[] = [
     supportModel: 'hybrid',
     usageWeight: 'heavy',
     workflowType: 'hybrid',
+    quote: 'How do I keep the support operation running efficiently while helping the team succeed?',
     description:
       'Runs day-to-day operations for a support team: queue health, staffing tradeoffs, escalations, and agent performance.',
     goals: [
-      'Ensure operational efficiency',
       'Maintain SLA targets',
       'Coach agents',
       'Manage escalations',
@@ -192,6 +197,7 @@ export const personas: Persona[] = [
       { label: 'Cross-team coordination', weight: 20 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('support-manager'),
+    comparisonProfile: personaComparisonProfiles['support-manager'],
   },
   {
     id: 'csm',
@@ -201,10 +207,10 @@ export const personas: Persona[] = [
     supportModel: 'b2b',
     usageWeight: 'moderate',
     workflowType: 'hybrid',
+    quote: 'How do I keep this customer successful, engaged, and likely to renew and grow?',
     description:
       'Balances proactive success motions with reactive fire drills: renewals, QBRs, adoption plans, and internal alignment with support and sales.',
     goals: [
-      'Protect renewals',
       'Improve customer health',
       'Increase product adoption',
       'Drive expansion opportunities',
@@ -246,6 +252,7 @@ export const personas: Persona[] = [
       { label: 'Internal alignment', weight: 20 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('csm'),
+    comparisonProfile: personaComparisonProfiles.csm,
   },
   {
     id: 'support-operations',
@@ -255,10 +262,10 @@ export const personas: Persona[] = [
     supportModel: 'hybrid',
     usageWeight: 'moderate',
     workflowType: 'analytical',
+    quote: 'How do I improve workflows, reduce friction, and help support teams scale effectively?',
     description:
       'Keeps the support stack healthy: integrations, routing rules, automations, data quality, and stakeholder requests at scale.',
     goals: [
-      'Optimize support workflows',
       'Improve automation',
       'Maintain data quality',
       'Reduce operational inefficiency',
@@ -299,6 +306,7 @@ export const personas: Persona[] = [
       { label: 'Stakeholder delivery', weight: 18 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('support-operations'),
+    comparisonProfile: personaComparisonProfiles['support-operations'],
   },
   {
     id: 'tam',
@@ -308,10 +316,11 @@ export const personas: Persona[] = [
     supportModel: 'b2b',
     usageWeight: 'moderate',
     workflowType: 'hybrid',
+    quote:
+      'How do I solve complex technical problems while maintaining trust with strategic customers?',
     description:
       'Bridges customer engineering reality with internal teams: telemetry, escalations, architecture reviews, and incident leadership.',
     goals: [
-      'Maintain technical customer health',
       'Resolve complex technical issues',
       'Guide customer architecture decisions',
       'Coordinate with engineering',
@@ -349,6 +358,7 @@ export const personas: Persona[] = [
       { label: 'Documentation & handoff', weight: 18 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('tam'),
+    comparisonProfile: personaComparisonProfiles.tam,
   },
   {
     id: 'ai-automation-manager',
@@ -358,10 +368,11 @@ export const personas: Persona[] = [
     supportModel: 'hybrid',
     usageWeight: 'moderate',
     workflowType: 'analytical',
+    quote:
+      'How do I improve automation quality and reduce operational effort without hurting the customer experience?',
     description:
       'Tunes self-service and AI-assisted paths: prompts, workflows, measurement, and continuous improvement with ops and knowledge owners.',
     goals: [
-      'Increase automation coverage',
       'Improve AI quality',
       'Reduce support cost',
       'Improve self-service effectiveness',
@@ -399,6 +410,7 @@ export const personas: Persona[] = [
       { label: 'Experimentation', weight: 18 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('ai-automation-manager'),
+    comparisonProfile: personaComparisonProfiles['ai-automation-manager'],
   },
   {
     id: 'account-executive',
@@ -408,11 +420,11 @@ export const personas: Persona[] = [
     supportModel: 'b2b',
     usageWeight: 'light',
     workflowType: 'commercial',
+    quote:
+      'How do I protect revenue, strengthen relationships, and identify opportunities for growth?',
     description:
       'Stays close to revenue motion: pipeline, risk accounts, and coordination with CS and support so deals do not surprise.',
     goals: [
-      'Protect revenue',
-      'Expand accounts',
       'Support renewals',
       'Maintain executive relationships',
     ],
@@ -445,6 +457,7 @@ export const personas: Persona[] = [
       { label: 'CRM hygiene & follow-up', weight: 16 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('account-executive'),
+    comparisonProfile: personaComparisonProfiles['account-executive'],
   },
   {
     id: 'implementation-manager',
@@ -454,10 +467,10 @@ export const personas: Persona[] = [
     supportModel: 'b2b',
     usageWeight: 'moderate',
     workflowType: 'hybrid',
+    quote: 'How do I help customers get up and running quickly while reducing onboarding friction?',
     description:
       'Orchestrates stakeholders through onboarding: blockers, technical setup, validation, and clean handoffs to steady-state support.',
     goals: [
-      'Drive fast customer onboarding',
       'Reduce time-to-value',
       'Coordinate launches / migrations',
     ],
@@ -490,6 +503,7 @@ export const personas: Persona[] = [
       { label: 'Documentation & handoff', weight: 16 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('implementation-manager'),
+    comparisonProfile: personaComparisonProfiles['implementation-manager'],
   },
   {
     id: 'engineering-escalation',
@@ -499,10 +513,10 @@ export const personas: Persona[] = [
     supportModel: 'hybrid',
     usageWeight: 'moderate',
     workflowType: 'reactive',
+    quote: 'How do I resolve high-impact product issues quickly and reduce future escalations?',
     description:
       'Turns escalations into fixes: triage, reproduce, prioritize by customer impact, and communicate workarounds with support and TAMs.',
     goals: [
-      'Resolve product defects',
       'Reduce recurring escalations',
       'Improve platform stability',
     ],
@@ -536,6 +550,7 @@ export const personas: Persona[] = [
       { label: 'Comms to support & customers', weight: 18 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('engineering-escalation'),
+    comparisonProfile: personaComparisonProfiles['engineering-escalation'],
   },
   {
     id: 'executive-leadership',
@@ -545,10 +560,10 @@ export const personas: Persona[] = [
     supportModel: 'hybrid',
     usageWeight: 'light',
     workflowType: 'analytical',
+    quote: 'How do I improve customer outcomes while scaling the organization efficiently?',
     description:
       'Consumes roll-ups across support, success, and revenue: health of the customer base, cost of service, and strategic escalations.',
     goals: [
-      'Understand customer risk',
       'Monitor operational health',
       'Improve retention',
       'Reduce support cost',
@@ -582,6 +597,7 @@ export const personas: Persona[] = [
       { label: 'Cross-functional alignment', weight: 18 },
     ],
     commonlyUsedFeatures: commonlyUsedFeaturesForPersona('executive-leadership'),
+    comparisonProfile: personaComparisonProfiles['executive-leadership'],
   },
 ]
 

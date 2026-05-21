@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Link2, X } from 'lucide-react'
+import { Link2, X, ChevronDown } from 'lucide-react'
 import { PersonaAvatar } from '@/components/PersonaAvatar'
+import { PersonaQuoteBlock } from '@/components/PersonaQuoteBlock'
 import { WorkflowDayOverview } from '@/components/WorkflowDayOverview'
 import { ToolLogo } from '@/components/ToolLogo'
 import { Button } from '@/components/ui/Button'
@@ -14,6 +15,7 @@ import { MAX_COMPARE_SELECTIONS } from '@/lib/compareLimits'
 import { MAIN_CONTENT_OUTER } from '@/lib/mainContentLayout'
 import { personaCardPillBase } from '@/lib/personaCardPills'
 import { copyTextToClipboard } from '@/lib/copyToClipboard'
+import { COMPARISON_DIMENSION_LABELS, COMPARISON_DIMENSION_ORDER } from '@/lib/comparisonDimensions'
 import { compareShareAbsoluteUrl } from '@/lib/urls'
 import { cn } from '@/lib/utils'
 import type { Persona } from '@/types/persona'
@@ -31,15 +33,231 @@ function CompareSection({
   children,
 }: {
   title: string
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <section className="space-y-3">
-      <h2 className="font-display text-xl font-semibold tracking-wide text-lime">
-        {title}
-      </h2>
+      <h3 className="font-display text-xl font-semibold tracking-wide text-lime">{title}</h3>
       {children}
     </section>
+  )
+}
+
+function ComparisonHighlightsTable({ left, right }: { left: Persona; right: Persona }) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[36rem] table-fixed border-collapse text-left text-sm">
+        <colgroup>
+          <col style={{ width: '24%' }} />
+          <col style={{ width: '38%' }} />
+          <col style={{ width: '38%' }} />
+        </colgroup>
+        <thead>
+          <tr className="border-b border-edge">
+            <th
+              scope="col"
+              className="pb-3 pl-[10px] pr-4 align-bottom font-display text-xs font-semibold uppercase tracking-wider text-ink-muted"
+            >
+              Theme
+            </th>
+            <th scope="col" className="px-3 pb-3 align-bottom font-display text-base font-semibold tracking-tight text-ink">
+              {left.name}
+            </th>
+            <th scope="col" className="px-3 pb-3 align-bottom font-display text-base font-semibold tracking-tight text-ink">
+              {right.name}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {COMPARISON_DIMENSION_ORDER.map((dim) => {
+            const va = left.comparisonProfile[dim]
+            const vb = right.comparisonProfile[dim]
+            const differs = va !== vb
+            return (
+              <tr
+                key={dim}
+                className={cn(
+                  'border-b border-edge/70 last:border-b-0',
+                  differs ? 'bg-lime/[0.045]' : undefined,
+                )}
+              >
+                <th
+                  scope="row"
+                  className="py-3 pl-[10px] pr-4 align-middle font-medium leading-snug text-lime"
+                >
+                  {COMPARISON_DIMENSION_LABELS[dim]}
+                </th>
+                <td className="px-3 py-3 align-top leading-relaxed text-ink">{va}</td>
+                <td className="px-3 py-3 align-top leading-relaxed text-ink">{vb}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function ComparisonHighlightsCard({ left, right }: { left: Persona; right: Persona }) {
+  const [expanded, setExpanded] = useState(true)
+
+  return (
+    <Card>
+      <CardHeader className="border-b border-edge pb-4">
+        <button
+          type="button"
+          className="flex w-full items-center gap-3 rounded-md text-left outline-none ring-lime/40 focus-visible:ring-2"
+          aria-expanded={expanded}
+          aria-controls="comparison-highlights-panel"
+          id="comparison-highlights-trigger"
+          onClick={() => setExpanded((e) => !e)}
+        >
+          <ChevronDown
+            className={cn(
+              'size-5 shrink-0 text-lime transition-transform duration-200',
+              expanded ? 'rotate-0' : '-rotate-90',
+            )}
+            aria-hidden
+          />
+          <h2 className="min-w-0 flex-1 font-display text-xl font-semibold tracking-tight text-lime">
+            Highlights
+          </h2>
+        </button>
+      </CardHeader>
+      <CardContent
+        id="comparison-highlights-panel"
+        hidden={!expanded}
+        className="pt-5"
+        role="region"
+        aria-labelledby="comparison-highlights-trigger"
+      >
+        <ComparisonHighlightsTable left={left} right={right} />
+      </CardContent>
+    </Card>
+  )
+}
+
+function ComparePersonaColumn({ persona: p }: { persona: Persona }) {
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [pinnedHeaderVisible, setPinnedHeaderVisible] = useState(false)
+
+  useEffect(() => {
+    const target = headerRef.current
+    if (!target) return
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setPinnedHeaderVisible(!entry.isIntersecting)
+      },
+      { threshold: 0 },
+    )
+
+    io.observe(target)
+    return () => io.disconnect()
+  }, [p.id])
+
+  return (
+    <Card className="overflow-visible">
+      <div ref={headerRef}>
+        <CardHeader className="gap-3 border-b border-edge bg-surface-1 pb-4 pt-6">
+          <PersonaAvatar personaId={p.id} name={p.name} />
+          <CardTitle className="text-2xl">{p.name}</CardTitle>
+          <p className="text-sm text-ink-muted">{p.role}</p>
+          <div className="flex flex-wrap gap-2 pt-1">
+            <DepartmentPill department={p.department} />
+            <span className={cn(personaCardPillBase, 'border-lime text-lime capitalize')}>
+              {p.workflowType}
+            </span>
+          </div>
+          <PersonaQuoteBlock quote={p.quote} className="-mx-5 w-auto min-w-0 self-stretch px-5 pt-1" />
+          <UsageIntensityBar weight={p.usageWeight} className="max-w-none" />
+        </CardHeader>
+      </div>
+
+      {pinnedHeaderVisible ? (
+        <div
+          className={cn(
+            'sticky top-2 z-30 mx-[10px] flex h-16 min-h-16 shrink-0 items-center gap-2.5 rounded-[var(--radius-card)]',
+            'border border-edge/70 bg-surface-1/70 px-3 backdrop-blur-xl',
+            'shadow-[0_10px_40px_rgba(0,0,0,0.45)]',
+          )}
+          aria-label={p.name}
+        >
+          <PersonaAvatar personaId={p.id} name={p.name} size="sm" />
+          <p className="min-w-0 flex-1 font-display text-sm font-semibold leading-tight tracking-tight text-ink line-clamp-1">
+            {p.name}
+          </p>
+        </div>
+      ) : null}
+
+      <CardContent className="space-y-6 pt-5">
+          <CompareSection title="Goals">
+            <ul className="space-y-2 text-md text-white">
+              {p.goals.map((g) => (
+                <li key={g} className="flex gap-2">
+                  <span className="mt-2 size-1 shrink-0 rounded-full bg-lime" />
+                  {g}
+                </li>
+              ))}
+            </ul>
+          </CompareSection>
+          <CompareSection title="Workflows">
+            <div className="space-y-4">
+              <p className="text-md leading-relaxed text-white">{p.workflow.summary}</p>
+              <WorkflowDayOverview workflow={p.workflow} variant="compact" />
+            </div>
+          </CompareSection>
+          <CompareSection title="Tools">
+            <div className="space-y-2">
+              {p.tools.map((t) => (
+                <div key={t.id} className="flex items-center gap-2">
+                  <ToolLogo name={t.name} iconSlug={t.iconSlug} className="size-8" />
+                  <span className="text-md font-medium">{t.name}</span>
+                </div>
+              ))}
+            </div>
+          </CompareSection>
+          <CompareSection title="Pain points">
+            <ul className="space-y-2 text-md text-white">
+              {p.painPoints.map((x) => (
+                <li key={x} className="flex gap-2">
+                  <span className="mt-2 size-1 shrink-0 rounded-full bg-danger" />
+                  {x}
+                </li>
+              ))}
+            </ul>
+          </CompareSection>
+          <CompareSection title="Features">
+            <ul className="space-y-2 text-md text-white">
+              {[...p.commonlyUsedFeatures]
+                .sort((a, b) => b.importanceScore - a.importanceScore)
+                .slice(0, 6)
+                .map((f) => (
+                  <li key={f.id} className="flex gap-2">
+                    <span className="mt-2 size-1 shrink-0 rounded-full bg-lime/70" aria-hidden />
+                    <span>
+                      <span className="font-medium">{f.label}</span>
+                      <span className="text-ink-muted"> — {f.category}</span>
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </CompareSection>
+          <CompareSection title="KPIs">
+            <ul className="space-y-2 text-md text-white">
+              {p.topJobs.map((j) => (
+                <li key={j.label} className="flex gap-2">
+                  <span className="mt-2 size-1 shrink-0 rounded-full bg-lime" aria-hidden />
+                  <span>
+                    {j.label}
+                    <span className="text-ink-muted"> ({j.weight}% emphasis)</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </CompareSection>
+        </CardContent>
+    </Card>
   )
 }
 
@@ -144,77 +362,23 @@ export function ComparePage() {
         </div>
       </div>
 
-      <div
-        className="grid gap-4"
-        style={{ gridTemplateColumns: `repeat(${selected.length}, minmax(0, 1fr))` }}
-      >
-        {selected.map((p) => (
-          <Card key={p.id} className="overflow-hidden">
-            <CardHeader className="gap-3 border-b border-edge bg-surface-1 pb-4 pt-6">
-              <PersonaAvatar personaId={p.id} name={p.name} />
-              <CardTitle className="text-2xl">{p.name}</CardTitle>
-              <p className="text-sm text-ink-muted">{p.role}</p>
-              <div className="flex flex-wrap gap-2 pt-1">
-                <DepartmentPill department={p.department} />
-                <span className={cn(personaCardPillBase, 'border-lime text-lime capitalize')}>
-                  {p.workflowType}
-                </span>
-              </div>
-              <UsageIntensityBar weight={p.usageWeight} className="max-w-none pt-3" />
-            </CardHeader>
-            <CardContent className="space-y-6 pt-5">
-              <CompareSection title="Snapshot">
-                <p className="text-md leading-relaxed text-ink">{p.description}</p>
-              </CompareSection>
-              <CompareSection title="Goals">
-                <ul className="space-y-2 text-md text-white">
-                  {p.goals.map((g) => (
-                    <li key={g} className="flex gap-2">
-                      <span className="mt-2 size-1 shrink-0 rounded-full bg-lime" />
-                      {g}
-                    </li>
-                  ))}
-                </ul>
-              </CompareSection>
-              <CompareSection title="Challenges">
-                <ul className="space-y-2 text-md text-white">
-                  {p.challenges.map((c) => (
-                    <li key={c} className="flex gap-2">
-                      <span className="mt-2 size-1 shrink-0 rounded-full bg-lime/50" />
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-              </CompareSection>
-              <CompareSection title="Pain points">
-                <ul className="space-y-2 text-md text-white">
-                  {p.painPoints.map((x) => (
-                    <li key={x} className="flex gap-2">
-                      <span className="mt-2 size-1 shrink-0 rounded-full bg-danger" />
-                      {x}
-                    </li>
-                  ))}
-                </ul>
-              </CompareSection>
-              <CompareSection title="Daily tasks">
-                <div className="space-y-4">
-                  <p className="text-md leading-relaxed text-white">{p.workflow.summary}</p>
-                  <WorkflowDayOverview workflow={p.workflow} variant="compact" />
-                </div>
-              </CompareSection>
-              <CompareSection title="Tools">
-                <div className="space-y-2">
-                  {p.tools.map((t) => (
-                    <div key={t.id} className="flex items-center gap-2">
-                      <ToolLogo name={t.name} iconSlug={t.iconSlug} className="size-8" />
-                      <span className="text-md font-medium">{t.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </CompareSection>
-            </CardContent>
-          </Card>
-        ))}
+      {selected[0] && selected[1] ? (
+        <ComparisonHighlightsCard left={selected[0]} right={selected[1]} />
+      ) : null}
+
+      <div className="space-y-4">
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Detailed Comparison</h2>
+        <p className="max-w-3xl text-sm text-ink-muted">
+          Goals, workflows, tools, pain points, product features, and KPI-style job emphasis side by side.
+        </p>
+        <div
+          className="grid gap-4"
+          style={{ gridTemplateColumns: `repeat(${selected.length}, minmax(0, 1fr))` }}
+        >
+          {selected.map((p) => (
+            <ComparePersonaColumn key={p.id} persona={p} />
+          ))}
+        </div>
       </div>
     </div>
   )

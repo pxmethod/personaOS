@@ -95,6 +95,21 @@ export type PersonaFeatureSet = {
   commonlyUsedFeatures: CommonlyUsedFeature[]
 }
 
+/** Axes used to synthesize side-by-side comparison highlights (curated per persona). */
+export type ComparisonDimension =
+  | 'workflowStyle'
+  | 'operationalFocus'
+  | 'collaborationIntensity'
+  | 'customerComplexity'
+  | 'primaryKpis'
+  | 'toolingNeeds'
+  | 'automationOpportunity'
+  | 'decisionMaking'
+  | 'supportModel'
+
+/** One-line expert phrases per axis — compared programmatically on the compare page. */
+export type PersonaComparisonProfile = Record<ComparisonDimension, string>
+
 export type Persona = {
   id: string
   name: string
@@ -103,6 +118,8 @@ export type Persona = {
   supportModel: SupportModel
   usageWeight: UsageWeight
   workflowType: WorkflowType
+  /** Guiding question / mindset quote for detail and compare headers. */
+  quote: string
   description: string
   goals: string[]
   challenges: string[]
@@ -119,6 +136,8 @@ export type Persona = {
   commonlyUsedFeatures: CommonlyUsedFeature[]
   /** Model confidence; omitted defaults to early model + industry baseline. */
   confidence?: PersonaConfidence
+  /** Structured axes for comparison highlights vs other personas. */
+  comparisonProfile: PersonaComparisonProfile
 }
 
 export type PersonaIndex = Pick<

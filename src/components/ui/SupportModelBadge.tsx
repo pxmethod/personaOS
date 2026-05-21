@@ -16,7 +16,14 @@ export function SupportModelBadge({
   className?: string
 }) {
   return (
-    <span className={cn(personaCardPillBase, palette[model], 'shrink-0', className)}>
+    <span
+      className={cn(
+        personaCardPillBase,
+        palette[model],
+        'shrink-0 whitespace-nowrap min-w-max',
+        className,
+      )}
+    >
       {SUPPORT_MODEL_LABELS[model]}
     </span>
   )

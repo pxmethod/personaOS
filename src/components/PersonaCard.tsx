@@ -35,11 +35,11 @@ export function PersonaCard({
           htmlFor={compareInputId}
           className="flex min-h-0 flex-1 cursor-pointer flex-col text-left"
         >
-          <div className="absolute right-3 top-3 z-20 flex max-w-[min(18rem,calc(100%-5.5rem))] flex-wrap items-center justify-end gap-1.5">
+          <div className="absolute right-3 top-3 z-20 inline-flex max-w-[calc(100%-5.5rem)] flex-nowrap items-center justify-end gap-1.5">
             <SupportModelBadge model={persona.supportModel} />
             <DepartmentPill
               department={persona.department}
-              className="min-w-0 max-w-[min(10.5rem,calc(100%-5rem))] shrink truncate"
+              className="min-w-0 shrink truncate"
             />
           </div>
           <span className="absolute left-3 top-3 z-20 flex items-center gap-2 rounded-xl border border-lime bg-surface-1/95 px-2 py-1 text-xs font-medium text-ink shadow-sm">
@@ -65,11 +65,11 @@ export function PersonaCard({
         </label>
       ) : (
         <>
-          <div className="absolute right-3 top-3 z-20 flex max-w-[min(18rem,calc(100%-5.5rem))] flex-wrap items-center justify-end gap-1.5">
+          <div className="absolute right-3 top-3 z-20 inline-flex max-w-[calc(100%-1.5rem)] flex-nowrap items-center justify-end gap-1.5">
             <SupportModelBadge model={persona.supportModel} />
             <DepartmentPill
               department={persona.department}
-              className="min-w-0 max-w-[min(10.5rem,calc(100%-5rem))] shrink truncate"
+              className="min-w-0 shrink truncate"
             />
           </div>
           <Link

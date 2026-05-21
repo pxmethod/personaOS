@@ -12,7 +12,6 @@ import {
 import { PersonaDetailSheet } from '@/components/PersonaDetailSheet'
 import { ExplorerContext } from '@/context/ExplorerContext'
 import { OrganizationSwitcher } from '@/components/layout/OrganizationSwitcher'
-import { RoadmapGlobalCard } from '@/components/layout/RoadmapGlobalCard'
 import { personas } from '@/data/personas'
 import { MAX_COMPARE_SELECTIONS } from '@/lib/compareLimits'
 import { filterPersonas } from '@/lib/personaFilters'
@@ -21,7 +20,6 @@ import { ComparePage } from '@/pages/ComparePage'
 import { DirectoryPage } from '@/pages/DirectoryPage'
 import { HomePage } from '@/pages/HomePage'
 import { OverlapPage } from '@/pages/OverlapPage'
-import { RoadmapPage } from '@/pages/RoadmapPage'
 import { cn } from '@/lib/utils'
 import { DEFAULT_ORGANIZATION_ID, type OrganizationId } from '@/lib/organizations'
 import type { Department, SupportModel, UsageWeight, WorkflowType } from '@/types/persona'
@@ -143,7 +141,7 @@ export function AppLayout() {
         <div
           style={{ width: SIDEBAR_W }}
           className={cn(
-            'fixed left-5 top-5 z-40 flex min-h-0 max-w-[min(288px,calc(100vw-2.5rem))] flex-col gap-[10px]',
+            'fixed left-5 top-5 z-40 flex min-h-0 max-w-[min(288px,calc(100vw-2.5rem))] flex-col',
             'max-h-[calc(100dvh-5rem)]',
             mobileNav ? 'translate-x-0' : '-translate-x-[calc(100%+20px)] lg:translate-x-0',
             'transition-transform duration-200 ease-out',
@@ -230,8 +228,6 @@ export function AppLayout() {
               </nav>
             </div>
           </aside>
-
-          <RoadmapGlobalCard onNavigate={() => setMobileNav(false)} />
         </div>
 
         {mobileNav && !hideChrome && (
@@ -261,7 +257,6 @@ export function AppLayout() {
               <Route path="directory" element={<DirectoryPage />} />
               <Route path="compare" element={<ComparePage />} />
               <Route path="overlap" element={<OverlapPage />} />
-              <Route path="roadmap" element={<RoadmapPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>

@@ -9,7 +9,7 @@ import { MAX_COMPARE_SELECTIONS } from '@/lib/compareLimits'
 import { MAIN_CONTENT_OUTER } from '@/lib/mainContentLayout'
 import { departments, sortPersonasByUsageDesc } from '@/lib/personaFilters'
 import { cn } from '@/lib/utils'
-import { PRODUCT_USAGE_LABELS, type Department, type UsageWeight, type WorkflowType } from '@/types/persona'
+import { PRODUCT_USAGE_LABELS, SUPPORT_MODEL_LABELS, type Department, type SupportModel, type UsageWeight, type WorkflowType } from '@/types/persona'
 
 export function DirectoryPage() {
   const navigate = useNavigate()
@@ -23,6 +23,8 @@ export function DirectoryPage() {
     query,
     department,
     setDepartment,
+    supportModel,
+    setSupportModel,
     usageWeight,
     setUsageWeight,
     workflowType,
@@ -34,6 +36,15 @@ export function DirectoryPage() {
   const departmentOptions = useMemo((): ListboxOption<Department | 'all'>[] => {
     return [{ value: 'all', label: 'All departments' }, ...deptOptions.map((d) => ({ value: d, label: d }))]
   }, [deptOptions])
+
+  const supportModelOptions = useMemo((): ListboxOption<SupportModel | 'all'>[] => {
+    return [
+      { value: 'all', label: 'All' },
+      { value: 'b2b', label: SUPPORT_MODEL_LABELS.b2b },
+      { value: 'b2c', label: SUPPORT_MODEL_LABELS.b2c },
+      { value: 'hybrid', label: SUPPORT_MODEL_LABELS.hybrid },
+    ]
+  }, [])
 
   const usageOptions = useMemo((): ListboxOption<UsageWeight | 'all'>[] => {
     return [
@@ -86,30 +97,39 @@ export function DirectoryPage() {
         </p>
       </div>
 
-      <div className="flex flex-col gap-4 rounded-[var(--radius-card)] border border-edge bg-surface-0/60 p-4 sm:flex-row sm:items-stretch sm:gap-6">
-        <div className="flex min-w-0 flex-1 flex-wrap items-end gap-3 sm:gap-4">
-          <label className="flex min-w-0 flex-col gap-1 text-[11px] font-medium text-ink-muted sm:flex-row sm:items-center sm:gap-2">
-            <span className="whitespace-nowrap sm:shrink-0">Function</span>
+      <div className="flex flex-col gap-4 rounded-[var(--radius-card)] border border-edge bg-surface-0/60 p-4 sm:flex-row sm:items-start sm:gap-6">
+        <div className="grid min-w-0 flex-1 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <label className="flex min-w-0 flex-col gap-1.5 text-[11px] font-medium text-ink-muted">
+            <span>Function</span>
             <ListboxSelect
-              className="min-w-0 flex-1 sm:min-w-[9.5rem] sm:flex-initial"
+              className="w-full min-w-0"
               value={department}
               options={departmentOptions}
               onChange={setDepartment}
             />
           </label>
-          <label className="flex min-w-0 flex-col gap-1 text-[11px] font-medium text-ink-muted sm:flex-row sm:items-center sm:gap-2">
-            <span className="whitespace-nowrap sm:shrink-0">Product usage</span>
+          <label className="flex min-w-0 flex-col gap-1.5 text-[11px] font-medium text-ink-muted">
+            <span>Support model</span>
             <ListboxSelect
-              className="min-w-0 flex-1 sm:min-w-[9.5rem] sm:flex-initial"
+              className="w-full min-w-0"
+              value={supportModel}
+              options={supportModelOptions}
+              onChange={setSupportModel}
+            />
+          </label>
+          <label className="flex min-w-0 flex-col gap-1.5 text-[11px] font-medium text-ink-muted">
+            <span>Product usage</span>
+            <ListboxSelect
+              className="w-full min-w-0"
               value={usageWeight}
               options={usageOptions}
               onChange={setUsageWeight}
             />
           </label>
-          <label className="flex min-w-0 flex-col gap-1 text-[11px] font-medium text-ink-muted sm:flex-row sm:items-center sm:gap-2">
-            <span className="whitespace-nowrap sm:shrink-0">Workflow</span>
+          <label className="flex min-w-0 flex-col gap-1.5 text-[11px] font-medium text-ink-muted">
+            <span>Workflow</span>
             <ListboxSelect
-              className="min-w-0 flex-1 sm:min-w-[9.5rem] sm:flex-initial"
+              className="w-full min-w-0"
               value={workflowType}
               options={workflowOptions}
               onChange={setWorkflowType}
@@ -132,11 +152,14 @@ export function DirectoryPage() {
         </div>
       </div>
 
-      {(query || department !== 'all' || usageWeight !== 'all' || workflowType !== 'all') && (
+      {(query || department !== 'all' || supportModel !== 'all' || usageWeight !== 'all' || workflowType !== 'all') && (
         <div className="flex flex-wrap items-center gap-2 text-xs text-ink-muted">
           {query && <span className="tag-lime px-2 py-1 text-ink-muted">Search: “{query}”</span>}
           {department !== 'all' && (
             <span className="tag-lime px-2 py-1 text-ink-muted">{department}</span>
+          )}
+          {supportModel !== 'all' && (
+            <span className="tag-lime px-2 py-1 text-ink-muted">{SUPPORT_MODEL_LABELS[supportModel]}</span>
           )}
           {usageWeight !== 'all' && (
             <span className="tag-lime px-2 py-1 text-ink-muted">
@@ -161,8 +184,7 @@ export function DirectoryPage() {
           {compareMode && (
             <div className="space-y-1 rounded-[var(--radius-card)] border border-edge bg-surface-0/50 px-4 py-3">
               <p className="text-sm leading-snug text-ink-muted">
-                Select up to two personas using the checkboxes on each card—only the checkbox toggles
-                selection in this mode.
+                Select up to two personas—click anywhere on a card (or use its checkbox) to toggle selection.
               </p>
               <p className="text-sm font-semibold tabular-nums text-lime">
                 {compareIds.length} of {MAX_COMPARE_SELECTIONS} selected

@@ -19,7 +19,7 @@ This creates stronger alignment between product strategy, customer needs, and da
 # Why PersonaOS Exists
 
 Modern B2B platforms are used by many different teams:
-- Support Agents
+- Support Agents (B2C and B2B)
 - Support Managers
 - Customer Success Managers
 - Support Operations
@@ -169,7 +169,8 @@ Future versions may support:
 A modeled representation of operational roles inside a support organization.
 
 ### Examples
-- Support Agent
+- Support Agent (B2C)
+- Support Agent (B2B)
 - Customer Success Manager
 - Technical Account Manager
 - Support Operations

@@ -23,6 +23,15 @@ export type WorkflowType =
   | 'analytical'
   | 'commercial'
 
+/** Primary customer motion the persona most often serves in this library. */
+export type SupportModel = 'b2b' | 'b2c' | 'hybrid'
+
+export const SUPPORT_MODEL_LABELS: Record<SupportModel, string> = {
+  b2b: 'B2B',
+  b2c: 'B2C',
+  hybrid: 'Hybrid',
+}
+
 export type PersonaUsage = UsageWeight
 
 export type SankeyTask = {
@@ -91,6 +100,7 @@ export type Persona = {
   name: string
   role: string
   department: Department
+  supportModel: SupportModel
   usageWeight: UsageWeight
   workflowType: WorkflowType
   description: string
@@ -117,6 +127,7 @@ export type PersonaIndex = Pick<
   | 'name'
   | 'role'
   | 'department'
+  | 'supportModel'
   | 'usageWeight'
   | 'workflowType'
   | 'description'

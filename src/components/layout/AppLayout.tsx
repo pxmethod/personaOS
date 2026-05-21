@@ -24,7 +24,7 @@ import { OverlapPage } from '@/pages/OverlapPage'
 import { RoadmapPage } from '@/pages/RoadmapPage'
 import { cn } from '@/lib/utils'
 import { DEFAULT_ORGANIZATION_ID, type OrganizationId } from '@/lib/organizations'
-import type { Department, UsageWeight, WorkflowType } from '@/types/persona'
+import type { Department, SupportModel, UsageWeight, WorkflowType } from '@/types/persona'
 
 const UNDERLAY_HOME: Location = {
   pathname: '/',
@@ -74,14 +74,15 @@ export function AppLayout() {
   const [organizationId, setOrganizationId] = useState<OrganizationId>(DEFAULT_ORGANIZATION_ID)
   const [query, setQuery] = useState('')
   const [department, setDepartment] = useState<Department | 'all'>('all')
+  const [supportModel, setSupportModel] = useState<SupportModel | 'all'>('all')
   const [usageWeight, setUsageWeight] = useState<UsageWeight | 'all'>('all')
   const [workflowType, setWorkflowType] = useState<WorkflowType | 'all'>('all')
   const [compareMode, setCompareMode] = useState(false)
   const [compareIds, setCompareIds] = useState<string[]>([])
 
   const filteredPersonas = useMemo(
-    () => filterPersonas(personas, { query, department, usageWeight, workflowType }),
-    [query, department, usageWeight, workflowType],
+    () => filterPersonas(personas, { query, department, supportModel, usageWeight, workflowType }),
+    [query, department, supportModel, usageWeight, workflowType],
   )
 
   const toggleCompareId = useCallback((id: string) => {
@@ -106,6 +107,8 @@ export function AppLayout() {
       setQuery,
       department,
       setDepartment,
+      supportModel,
+      setSupportModel,
       usageWeight,
       setUsageWeight,
       workflowType,
@@ -122,6 +125,7 @@ export function AppLayout() {
       organizationId,
       query,
       department,
+      supportModel,
       usageWeight,
       workflowType,
       filteredPersonas,

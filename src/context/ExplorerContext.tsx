@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 import type { OrganizationId } from '@/lib/organizations'
-import type { Department, Persona, UsageWeight, WorkflowType } from '@/types/persona'
+import type { Department, Persona, SupportModel, UsageWeight, WorkflowType } from '@/types/persona'
 
 export type ExplorerContextValue = {
   organizationId: OrganizationId
@@ -9,6 +9,8 @@ export type ExplorerContextValue = {
   setQuery: (q: string) => void
   department: Department | 'all'
   setDepartment: (d: Department | 'all') => void
+  supportModel: SupportModel | 'all'
+  setSupportModel: (m: SupportModel | 'all') => void
   usageWeight: UsageWeight | 'all'
   setUsageWeight: (u: UsageWeight | 'all') => void
   workflowType: WorkflowType | 'all'

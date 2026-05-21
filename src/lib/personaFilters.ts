@@ -1,4 +1,4 @@
-import type { Persona, UsageWeight } from '@/types/persona'
+import { SUPPORT_MODEL_LABELS, type Persona, type SupportModel, type UsageWeight } from '@/types/persona'
 
 /** Lower rank = heavier usage (directory default order). */
 const USAGE_SORT_RANK: Record<UsageWeight, number> = {
@@ -30,6 +30,7 @@ export function personaMatchesKeyword(persona: Persona, q: string): boolean {
     ...persona.painPoints,
     ...persona.painThemes,
     ...persona.tags,
+    SUPPORT_MODEL_LABELS[persona.supportModel],
     ...persona.workflow.buckets.flatMap((b) =>
       b.tasks.map((t) => `${t.label} ${b.label}`)
     ),
@@ -44,6 +45,7 @@ export function filterPersonas(
   list: Persona[],
   opts: {
     department: string | 'all'
+    supportModel: SupportModel | 'all'
     usageWeight: string | 'all'
     workflowType: string | 'all'
     query: string
@@ -51,6 +53,7 @@ export function filterPersonas(
 ): Persona[] {
   return list.filter((p) => {
     if (opts.department !== 'all' && p.department !== opts.department) return false
+    if (opts.supportModel !== 'all' && p.supportModel !== opts.supportModel) return false
     if (opts.usageWeight !== 'all' && p.usageWeight !== opts.usageWeight) return false
     if (opts.workflowType !== 'all' && p.workflowType !== opts.workflowType) return false
     if (!personaMatchesKeyword(p, opts.query)) return false

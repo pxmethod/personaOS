@@ -16,7 +16,6 @@ export function PersonaDetailSheet({
   personaId: string
   onClose: () => void
 }) {
-  const persona = personaById[personaId]
   const [phase, setPhase] = useState<Phase>('enter')
   const [reducedMotion, setReducedMotion] = useState(false)
   const closingRef = useRef(false)
@@ -62,6 +61,11 @@ export function PersonaDetailSheet({
     return () => document.removeEventListener('keydown', onKey)
   }, [runClose])
 
+  if (personaId === 'support-agent') {
+    return <Navigate to="/persona/support-agent-b2c" replace />
+  }
+
+  const persona = personaById[personaId]
   if (!persona) return <Navigate to="/" replace />
 
   const panelY = reducedMotion

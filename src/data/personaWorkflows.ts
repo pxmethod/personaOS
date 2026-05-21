@@ -2,20 +2,21 @@ import type { PersonaWorkflow } from '@/types/persona'
 
 export const personaWorkflows: PersonaWorkflow[] = [
   {
-    id: 'support-agent',
-    name: 'Support Agent',
+    id: 'support-agent-b2c',
+    name: 'Support Agent (B2C)',
     usage: 'heavy',
     summary:
-      'Primary daily workspace for triage, resolution, and customer communication.',
+      'High-volume frontline support across chat, email, voice, and self-service: triage quickly, resolve transactional issues, and keep SLAs and CSAT healthy.',
     buckets: [
       {
         id: 'morning',
         label: 'Morning',
         weight: 15,
         tasks: [
-          { id: 'sa-review-queue', label: 'Review assigned queue', weight: 6 },
-          { id: 'sa-check-sla', label: 'Check SLA risks and incidents', weight: 5 },
-          { id: 'sa-prioritize', label: 'Prioritize urgent accounts/tickets', weight: 4 },
+          { id: 'b2c-review-queue', label: 'Review assigned queue and channel coverage', weight: 5 },
+          { id: 'b2c-check-sla', label: 'Check SLA-risk conversations', weight: 5 },
+          { id: 'b2c-review-incidents', label: 'Review active incidents/outages', weight: 3 },
+          { id: 'b2c-prioritize', label: 'Prioritize urgent customer requests', weight: 2 },
         ],
       },
       {
@@ -23,11 +24,16 @@ export const personaWorkflows: PersonaWorkflow[] = [
         label: 'Throughout the Day',
         weight: 65,
         tasks: [
-          { id: 'sa-resolve', label: 'Investigate and resolve cases', weight: 20 },
-          { id: 'sa-research', label: 'Search knowledge base and internal docs', weight: 15 },
-          { id: 'sa-communicate', label: 'Respond to customers and manage expectations', weight: 10 },
-          { id: 'sa-escalate', label: 'Escalate blockers to other teams', weight: 10 },
-          { id: 'sa-update', label: 'Update tickets, notes, and statuses', weight: 10 },
+          { id: 'b2c-handle-conversations', label: 'Handle incoming chats/emails/calls', weight: 11 },
+          { id: 'b2c-authenticate', label: 'Authenticate and identify customers', weight: 7 },
+          { id: 'b2c-investigate-issues', label: 'Investigate account/order/subscription issues', weight: 10 },
+          { id: 'b2c-search-kb', label: 'Search knowledge base and macros', weight: 7 },
+          { id: 'b2c-resolve-common', label: 'Resolve common support requests', weight: 7 },
+          { id: 'b2c-escalate', label: 'Escalate unresolved technical or billing issues', weight: 6 },
+          { id: 'b2c-update-status', label: 'Update conversation status and notes', weight: 5 },
+          { id: 'b2c-manage-multiple', label: 'Manage multiple concurrent conversations', weight: 4 },
+          { id: 'b2c-handle-refunds', label: 'Handle refunds, replacements, or account changes', weight: 4 },
+          { id: 'b2c-close-conversations', label: 'Close resolved conversations', weight: 4 },
         ],
       },
       {
@@ -35,9 +41,56 @@ export const personaWorkflows: PersonaWorkflow[] = [
         label: 'End of Day',
         weight: 20,
         tasks: [
-          { id: 'sa-handoff', label: 'Handoff unresolved work', weight: 8 },
-          { id: 'sa-close', label: 'Close resolved tickets', weight: 7 },
-          { id: 'sa-document', label: 'Document learnings and account context', weight: 5 },
+          { id: 'b2c-handoff', label: 'Handoff unresolved customer conversations', weight: 7 },
+          { id: 'b2c-follow-ups', label: 'Clear pending follow-ups', weight: 5 },
+          { id: 'b2c-eod-updates', label: 'Update statuses and notes', weight: 4 },
+          { id: 'b2c-queue-health', label: 'Review queue health and remaining SLA risks', weight: 4 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: 'support-agent-b2b',
+    name: 'Support Agent (B2B)',
+    usage: 'heavy',
+    summary:
+      'Named-account and organization support: fewer tickets, higher complexity, stronger coordination with CS and sales, and tighter expectations around contracts, entitlements, and revenue risk.',
+    buckets: [
+      {
+        id: 'morning',
+        label: 'Morning',
+        weight: 15,
+        tasks: [
+          { id: 'b2b-review-queue', label: 'Review priority B2B queue and account tiers', weight: 5 },
+          { id: 'b2b-contract-sla', label: 'Check contractual SLA and severity obligations', weight: 5 },
+          { id: 'b2b-sync-accounts', label: 'Sync with CSM/AE on at-risk or launch accounts', weight: 3 },
+          { id: 'b2b-incidents', label: 'Review incidents impacting enterprise customers', weight: 2 },
+        ],
+      },
+      {
+        id: 'throughoutDay',
+        label: 'Throughout the Day',
+        weight: 65,
+        tasks: [
+          { id: 'b2b-thread-triage', label: 'Triage multi-threaded email and portal cases', weight: 12 },
+          { id: 'b2b-stakeholder-comms', label: 'Coordinate responses across customer stakeholders', weight: 10 },
+          { id: 'b2b-entitlements', label: 'Validate entitlements, contracts, and usage limits', weight: 10 },
+          { id: 'b2b-deep-investigation', label: 'Investigate product, integration, and data issues', weight: 12 },
+          { id: 'b2b-eng-escalation', label: 'Package and escalate engineering-ready defects', weight: 8 },
+          { id: 'b2b-internal-alignment', label: 'Align with CS, sales, and product on account context', weight: 8 },
+          { id: 'b2b-documentation', label: 'Document workarounds, RCAs, and customer commitments', weight: 5 },
+        ],
+      },
+      {
+        id: 'endOfDay',
+        label: 'End of Day',
+        weight: 20,
+        tasks: [
+          { id: 'b2b-handoff', label: 'Hand off open issues with clear customer commitments', weight: 7 },
+          { id: 'b2b-account-health', label: 'Update account notes and health signals', weight: 6 },
+          { id: 'b2b-exec-escalations', label: 'Prep or close executive-escalation threads', weight: 4 },
+          { id: 'b2b-queue-risk', label: 'Review contractual SLA risk and backlog aging', weight: 3 },
         ],
       },
     ],
